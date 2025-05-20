@@ -34,3 +34,26 @@ func TestFindByName(t *testing.T) {
 	result = country.FindByName("USA")
 	assert.Nil(t, result)
 }
+
+func TestFlagEmoji(t *testing.T) {
+	tests := []struct {
+		name     string
+		alpha2   string
+		expected string
+	}{
+		{"Germany", "DE", "🇩🇪"},
+		{"United States", "US", "🇺🇸"},
+		{"Czechia lowercase", "cz", "🇨🇿"},
+		{"Invalid one letter", "X", ""},
+		{"Invalid three letters", "USA", ""},
+		{"Empty", "", ""},
+	}
+
+	for _, tt := range tests {
+		c := country.Country{
+			Name:   tt.name,
+			Alpha2: tt.alpha2,
+		}
+		assert.Equal(t, tt.expected, c.FlagEmoji(), "case: %s", tt.name)
+	}
+}
